@@ -1,6 +1,9 @@
 import React from 'react';
+import ReactAudioPlayer from 'react-audio-player'
 
 const Output = ({data}) => {
+
+    console.log(data);
 
     const apikey = "0c89409873824f99bc746a2a81beea18";
     const AudioSrc = data;
@@ -8,9 +11,15 @@ const Output = ({data}) => {
 
     return (
         <div>
-            <audio controls>
-                <source src={mylink} type="audio/mp3" />
-            </audio>
+            <h1>{mylink}</h1>
+
+            <ReactAudioPlayer
+             src={mylink}
+             controls
+             style={{ width:'1000px'}}
+
+              />
+              
         </div>
     )
 }

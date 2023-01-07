@@ -1,13 +1,16 @@
 import React from 'react';
 import Output from './Output';
+import { useState, useEffect } from 'react';
 
 const Main = () => { 
-   var Data = "It is working";   
-    const getData = () => {
+    
+    const [data, setData] = useState('It is working')
+      
+    const getData =  () => {
         const TxtData = document.getElementById('editor').value;
-        Data = TxtData;
+        setData(TxtData)
         console.log(TxtData);
-        alert(Data)
+        
     }
     function click() {
         getData();
@@ -26,7 +29,7 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-        <Output data={Data} />
+        <Output data={data} />
         </div>
         
     );
