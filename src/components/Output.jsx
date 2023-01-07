@@ -12,7 +12,7 @@ const Output = ({ data }) => {
     return (
         <div className='text-center p-6'>
 
-            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-pri md:text-5xl lg:text-6xl dark:text-white"><span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">Output</span></h1>
+            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-pri md:text-5xl lg:text-6xl dark:text-white"><span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">Output</span></h1>
             <ReactAudioPlayer
                 className='w-1/2 mt-10 mx-auto '
                 src={mylink}
