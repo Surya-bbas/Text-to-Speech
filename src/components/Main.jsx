@@ -1,10 +1,10 @@
 import React from 'react';
 import Output from './Output';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Main = () => { 
     
-    const [data, setData] = useState('Welcome to the website')
+    const [data, setData] = useState(['Welcome to the website'])
       
     const getData =  () => {
         const TxtData = document.getElementById('editor').value;
