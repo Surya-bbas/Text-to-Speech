@@ -2,9 +2,9 @@ import React from 'react';
 
 const Output = ({data}) => {
 
-    const apikey = "a51eb574f38944c28cf78061597b49ba";
+    const apikey = "0c89409873824f99bc746a2a81beea18";
     const AudioSrc = data;
-    const mylink = "https://api.voicerss.org/?key="+apikey+"&hl=en-us&src=" + AudioSrc;
+    const mylink = "https://api.voicerss.org/?key=" + apikey + "&hl=en-us&src=" + AudioSrc;
 
     return (
         <div>
