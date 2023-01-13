@@ -3,7 +3,7 @@ import ReactAudioPlayer from 'react-audio-player';
 
 const Output = ({ data }) => {
 
-    console.log(data);
+    
 
     const apikey = "0c89409873824f99bc746a2a81beea18";
     const AudioSrc = data;

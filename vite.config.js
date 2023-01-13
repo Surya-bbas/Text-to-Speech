@@ -5,4 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base:'/Text-to-Speech/',
   plugins: [react()],
-})
+  optimizeDeps: {
+    exclude: ["firebase", "firebase/app", "firebase/auth", "firebase/firestore", ],
+  }
+}
+)
