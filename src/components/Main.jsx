@@ -23,11 +23,18 @@ import {
    GoogleAuthProvider,
    signInWithPopup,
    onAuthStateChanged,
+   getAdditionalUserInfo
 } from "firebase/auth";
+import { async } from "@firebase/util";
 
 const Main = () => {
    const [data, setData] = useState("Welcome to the website");
-   const [user, setUser] = useState()
+   const [user, setUser] = useState([])
+
+   useEffect(()=>{
+
+   },[])
+   
    let logginStatus
 
    const ttsCall =  () => {
@@ -46,18 +53,23 @@ const Main = () => {
 }
 
    // firebase code:
-    function fetchDoc(user){
-        getDoc(doc(db,'user',user.uid)).then((response)=>{
+
+    async function fetchDoc(user){
+
+        return getDoc(doc(db,'user',user.uid)).then((response)=>{
             console.log(response.data());
+            
         })
 
     }
-   onAuthStateChanged(auth,(user)=>{
+
+    onAuthStateChanged(auth,(user)=>{
     console.log(user)
     if(user){
         logginStatus=true
         fetchDoc(user)
     }
+    
    })
 
    async function handelSignUp(e) {
@@ -80,6 +92,24 @@ const Main = () => {
       const password = signInForm.password.value;
       signInWithEmailAndPassword(auth, email, password);
       signInForm.reset();
+   }
+
+   function handelGoogleSignIn(){
+
+    const provider = new GoogleAuthProvider()
+    signInWithPopup(auth,provider).then((response)=>{
+       console.log(response);
+       const newUser = getAdditionalUserInfo(response).isNewUser
+       console.log(newUser);
+       if(newUser===true){
+            const currentUserId = auth.currentUser.uid
+            setDoc( doc(db,'user',currentUserId),{
+                email:response.user.email,
+                recent:[]                
+            } ) 
+       }
+    })
+
    }
 
    return (
@@ -118,7 +148,7 @@ const Main = () => {
             <button className="bg-secondary p-2">SignIn</button>
          </form>
 
-         
+         <button className="bg-secondary p-2 mt-3" onClick={()=>handelGoogleSignIn()}>Google SignIn</button>
 
          <div className="flex justify-center items-center pb-3">
             <button
@@ -159,8 +189,10 @@ const Main = () => {
          <Output data={data} />
 
          <div id="recent">
-            {user ? <h1>user is found</h1> : <h1>no user is found</h1>}
+
          </div>
+
+         
       </div>
    );
 };
