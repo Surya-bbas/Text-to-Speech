@@ -29,24 +29,43 @@ import { async } from "@firebase/util";
 
 const Main = () => {
    const [data, setData] = useState("Welcome to the website");
-   const [user, setUser] = useState([])
+   const [userRecentData, setUserRecentData] = useState([])
+   const [logginStatus, setlogginStatus] = useState()
+   let message='bye'
+   let recentData
+   
 
    useEffect(()=>{
 
-   },[])
+      onAuthStateChanged(auth,(user)=>{
    
-   let logginStatus
+         console.log("state changed",user)
+         if(user){
+             setlogginStatus(true)
+             fetchDoc(user)
+         }
+         else{
+            setlogginStatus(false)
+            setUserRecentData([])
+         }
+         
+      })
+   },[])
+
+   
+   
 
    const ttsCall =  () => {
 
     const TxtData = document.getElementById('editor').value;
+    message='hello'
     setData(TxtData)    
     if (logginStatus==true){
         console.log(auth.currentUser.uid);
-        const loggedInUserId = auth.currentUser.uid
-        updateDoc(doc(db,'user',loggedInUserId),{
+        auth.currentUser.uid
+        updateDoc(doc(db,'user',auth.currentUser.uid),{
             recent:arrayUnion(TxtData)
-        })
+        }).then(()=>fetchDoc(auth.currentUser))
         
     }
     
@@ -54,23 +73,20 @@ const Main = () => {
 
    // firebase code:
 
-    async function fetchDoc(user){
+    function fetchDoc(user){
 
-        return getDoc(doc(db,'user',user.uid)).then((response)=>{
-            console.log(response.data());
+        getDoc(doc(db,'user',user.uid)).then((response)=>{
+
+            
+           setUserRecentData(response.data().recent,)
+           
+            
             
         })
 
     }
 
-    onAuthStateChanged(auth,(user)=>{
-    console.log(user)
-    if(user){
-        logginStatus=true
-        fetchDoc(user)
-    }
-    
-   })
+
 
    async function handelSignUp(e) {
       e.preventDefault();
@@ -155,7 +171,7 @@ const Main = () => {
                onClick={() => {
                   signOut(auth).then(()=>{
                     console.log("user logged out:")
-                    logginStatus=false
+                    
                   });
                }}
                className="  bg-secondary p-2"
@@ -188,8 +204,12 @@ const Main = () => {
          </div>
          <Output data={data} />
 
-         <div id="recent">
-
+         
+         <div id="recent-data" className="mt-20 border-t-2 pt-5">
+            <h1>{userRecentData}</h1>
+            {userRecentData.length > 0 ? (userRecentData.map(data => (
+               <Output data={data} />
+            ))):'no data'}
          </div>
 
          
